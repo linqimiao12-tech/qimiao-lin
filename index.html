@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qimiao Lin · 林琪妙</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Space+Grotesk:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f3ef;
+  --surface: #edeae4;
+  --white: #1a1a1a;
+  --dim: rgba(26,26,26,0.5);
+  --rule: rgba(26,26,26,0.1);
+  --accent: #c0392b;
+  --hot: #a0302a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Space Grotesk',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+  font-size:15px;
+  line-height:1.6;
+}
+
+/* ── LANG ── */
+.lang-toggle{
+  position:fixed;top:28px;right:48px;z-index:300;
+  display:flex;gap:0;border:1px solid var(--rule);
+}
+.lang-btn{
+  padding:7px 16px;
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.14em;
+  background:transparent;border:none;
+  cursor:pointer;color:var(--dim);transition:all .2s;
+}
+.lang-btn.active{background:var(--white);color:var(--bg);}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:24px 48px;
+  background:rgba(245,243,239,0.95);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-weight:300;
+  letter-spacing:0.1em;color:var(--white);
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:36px}
+.nav-links a{
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--dim);
+  text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--white);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  padding:140px 48px 80px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  border-bottom:1px solid var(--rule);
+  position:relative;
+  overflow:hidden;
+}
+/* 右侧动态区域 */
+.hero-visual{
+  position:absolute;
+  top:0;right:0;
+  width:52%;height:100%;
+  pointer-events:none;
+  overflow:hidden;
+}
+/* 浮动关键词标签 */
+.float-tag{
+  position:absolute;
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:rgba(26,26,26,0.38);
+  border:1px solid rgba(26,26,26,0.2);
+  padding:6px 14px;
+  white-space:nowrap;
+  animation:floatTag linear infinite;
+}
+@keyframes floatTag{
+  0%{transform:translateY(0) translateX(0);}
+  25%{transform:translateY(-12px) translateX(6px);}
+  50%{transform:translateY(-6px) translateX(-4px);}
+  75%{transform:translateY(-16px) translateX(3px);}
+  100%{transform:translateY(0) translateX(0);}
+}
+/* 细线装饰 */
+.hero-line{
+  position:absolute;
+  background:rgba(26,26,26,0.14);
+  animation:linePulse 4s ease-in-out infinite;
+}
+@keyframes linePulse{
+  0%,100%{opacity:0.5;}
+  50%{opacity:1;}
+}
+/* 旋转圆环 */
+.hero-ring{
+  position:absolute;
+  border-radius:50%;
+  border:1px solid rgba(26,26,26,0.13);
+  animation:ringRotate linear infinite;
+}
+@keyframes ringRotate{
+  from{transform:rotate(0deg);}
+  to{transform:rotate(360deg);}
+}
+.hero-bg-word{
+  position:absolute;top:50%;left:-2%;
+  transform:translateY(-55%);
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(160px,22vw,340px);
+  font-weight:600;font-style:italic;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(26,26,26,0.05);
+  pointer-events:none;user-select:none;
+  line-height:1;letter-spacing:-0.04em;
+  white-space:nowrap;
+}
+.hero-eyebrow{
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:28px;
+}
+.hero-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(52px,9vw,128px);
+  font-weight:300;line-height:0.9;
+  letter-spacing:-0.025em;
+  margin-bottom:48px;
+}
+.hero-name em{font-style:italic;color:var(--accent);}
+.hero-bottom{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:48px;align-items:end;
+}
+.hero-desc{
+  font-size:13px;color:var(--dim);
+  line-height:1.9;max-width:360px;
+}
+.hero-stats{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;border:1px solid var(--rule);
+}
+.hstat{
+  padding:20px 24px;
+  border-right:1px solid var(--rule);
+}
+.hstat:nth-child(even){border-right:none;}
+.hstat:nth-child(-n+2){border-bottom:1px solid var(--rule);}
+.hstat-n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:300;line-height:1;
+  margin-bottom:4px;
+}
+.hstat-l{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--dim);
+}
+
+/* ── DIVIDER LABEL ── */
+.divider{
+  display:flex;justify-content:space-between;
+  align-items:center;
+  padding:16px 48px;
+  border-bottom:1px solid var(--rule);
+  border-top:1px solid var(--rule);
+}
+.divider-label{
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--dim);
+}
+.divider-year{
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.1em;
+  color:rgba(26,26,26,0.25);
+}
+
+/* ── PROJECT ROW ── */
+.project{
+  display:grid;
+  grid-template-columns:56px 1fr 1fr;
+  border-bottom:1px solid var(--rule);
+  transition:background .25s;
+}
+.project:hover{background:var(--surface);}
+.proj-idx{
+  writing-mode:vertical-rl;
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.18em;
+  color:rgba(26,26,26,0.25);
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid var(--rule);
+  padding:24px 0;
+  text-transform:uppercase;
+}
+.proj-left{
+  padding:48px 40px;
+  border-right:1px solid var(--rule);
+}
+.proj-cat{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:20px;
+}
+.proj-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,3.5vw,52px);
+  font-weight:300;line-height:1.05;
+  margin-bottom:20px;
+}
+.proj-title em{font-style:italic;}
+.proj-desc{
+  font-size:13px;color:var(--dim);
+  line-height:1.8;margin-bottom:36px;
+  max-width:440px;
+}
+.proj-nums{display:flex;gap:28px;flex-wrap:wrap;}
+.pnum{display:flex;flex-direction:column;gap:3px;}
+.pnum-v{
+  font-family:'Cormorant Garamond',serif;
+  font-size:32px;font-weight:300;line-height:1;
+}
+.pnum-k{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--dim);
+}
+.proj-right{
+  padding:48px 40px;
+  display:flex;flex-direction:column;justify-content:flex-end;
+}
+.proj-list{list-style:none;}
+.proj-list li{
+  padding:10px 0;
+  border-bottom:1px solid var(--rule);
+  font-size:12px;color:var(--dim);
+  line-height:1.6;
+  display:flex;gap:12px;
+}
+.proj-list li::before{content:'—';color:var(--accent);flex-shrink:0;}
+.proj-list li:last-child{border-bottom:none;}
+
+/* ── CREATIVE SECTION ── */
+.creative-wrap{
+  display:grid;grid-template-columns:56px 1fr;
+  border-bottom:1px solid var(--rule);
+}
+.creative-side{
+  writing-mode:vertical-rl;
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.18em;
+  color:rgba(26,26,26,0.25);
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid var(--rule);
+  text-transform:uppercase;
+}
+.creative-body{padding:72px 48px;}
+.creative-header{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:64px;margin-bottom:72px;
+  align-items:end;
+}
+.creative-pull{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,5vw,64px);
+  font-weight:300;line-height:1.1;
+}
+.creative-pull em{font-style:italic;color:var(--accent);}
+.creative-sub{
+  font-size:13px;color:var(--dim);
+  line-height:1.9;
+}
+.works-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;border:1px solid var(--rule);
+}
+.work{
+  padding:36px;border-right:1px solid var(--rule);
+  position:relative;
+  transition:background .25s;
+}
+.work:last-child{border-right:none;}
+.work:hover{background:var(--surface);}
+.work-label{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;display:block;
+}
+.work-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:400;
+  line-height:1.2;margin-bottom:14px;
+}
+.work-desc{font-size:12px;color:var(--dim);line-height:1.7;}
+.work-yr{
+  position:absolute;bottom:24px;right:28px;
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  color:rgba(26,26,26,0.12);
+  letter-spacing:0.08em;
+}
+
+/* ── SKILLS ── */
+.skills-wrap{
+  display:grid;grid-template-columns:56px 1fr;
+  border-bottom:1px solid var(--rule);
+}
+.skills-side{
+  writing-mode:vertical-rl;
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.18em;
+  color:rgba(26,26,26,0.25);
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid var(--rule);
+  text-transform:uppercase;
+}
+.skills-body{
+  display:grid;grid-template-columns:1fr 1fr;
+}
+.skill{
+  padding:28px 36px;
+  border-bottom:1px solid var(--rule);
+  border-right:1px solid var(--rule);
+  display:flex;justify-content:space-between;align-items:start;
+  gap:16px;
+}
+.skill:nth-child(even){border-right:none;}
+.skill-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:400;
+  margin-bottom:4px;
+}
+.skill-plat{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.08em;
+  color:var(--dim);
+}
+.skill-badge{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:5px 10px;
+  border:1px solid var(--rule);
+  color:var(--dim);white-space:nowrap;flex-shrink:0;
+}
+
+/* ── ABOUT ── */
+.about-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--rule);
+}
+.about-left{
+  padding:80px 48px;
+  border-right:1px solid var(--rule);
+  display:flex;flex-direction:column;justify-content:center;
+  background:var(--surface);
+}
+.about-statement{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,52px);
+  font-weight:300;line-height:1.15;
+  margin-bottom:56px;
+}
+.about-statement em{font-style:italic;color:var(--accent);}
+.about-edu-item{
+  padding:16px 0;
+  border-top:1px solid var(--rule);
+  font-size:12px;color:var(--dim);
+}
+.about-edu-item strong{
+  color:var(--white);font-weight:400;
+  display:block;margin-bottom:2px;
+  font-size:13px;
+}
+.about-right{padding:80px 48px;}
+.about-row{
+  padding:20px 0;border-bottom:1px solid var(--rule);
+}
+.about-row:last-child{border-bottom:none;}
+.about-row-label{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:12px;
+}
+.about-row-val{font-size:13px;color:var(--dim);line-height:1.8;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.tag{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.08em;
+  padding:4px 10px;
+  border:1px solid var(--rule);
+  color:rgba(26,26,26,0.5);
+}
+
+/* ── CONTACT ── */
+.contact{
+  padding:80px 48px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  border-bottom:1px solid var(--rule);
+}
+.contact-head{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(48px,8vw,120px);
+  font-weight:300;line-height:0.88;
+  letter-spacing:-0.025em;
+}
+.contact-head em{font-style:italic;color:var(--accent);}
+.contact-cta{
+  display:inline-block;
+  background:var(--white);color:var(--bg);
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.16em;
+  text-transform:uppercase;
+  padding:16px 32px;
+  text-decoration:none;transition:background .2s;
+  white-space:nowrap;
+}
+.contact-cta:hover{background:var(--accent);}
+
+/* ── FOOTER ── */
+footer{
+  padding:20px 48px;
+  display:flex;justify-content:space-between;
+  border-top:1px solid var(--rule);
+}
+footer span{
+  font-family:'Space Mono',monospace;
+  font-size:8px;letter-spacing:0.1em;
+  text-transform:uppercase;color:rgba(26,26,26,0.25);
+}
+
+/* ── LANG SWITCH ── */
+.lang-en .zh{display:none}
+.lang-zh .en{display:none}
+
+/* ── PORTRAIT IMAGE ── */
+.portrait-img{
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+  border:1px solid var(--rule);
+}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:18px 24px;}
+  .lang-toggle{right:24px;top:20px;}
+  .hero{padding:110px 24px 60px;}
+  .hero-bottom{grid-template-columns:1fr;}
+  .hero-name{font-size:clamp(44px,11vw,80px);}
+  .divider{padding:14px 24px;}
+  .project{grid-template-columns:1fr;}
+  .proj-idx{writing-mode:horizontal-tb;padding:14px 24px;border-right:none;border-bottom:1px solid var(--rule);}
+  .proj-left,.proj-right{padding:32px 24px;border-right:none;}
+  .creative-wrap,.skills-wrap{grid-template-columns:1fr;}
+  .creative-side,.skills-side{writing-mode:horizontal-tb;padding:14px 24px;border-right:none;border-bottom:1px solid var(--rule);}
+  .creative-body{padding:48px 24px;}
+  .creative-header{grid-template-columns:1fr;}
+  .works-grid{grid-template-columns:1fr;}
+  .work{border-right:none;border-bottom:1px solid var(--rule);}
+  .skills-body{grid-template-columns:1fr;}
+  .skill{border-right:none;}
+  .about-wrap{grid-template-columns:1fr;}
+  .about-left{padding:60px 24px;border-right:none;}
+  .about-right{padding:60px 24px;}
+  .contact{flex-direction:column;gap:40px;padding:60px 24px;}
+  footer{padding:16px 24px;flex-direction:column;gap:6px;}
+}
+</style>
+</head>
+<body class="lang-en">
+
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('zh')">中文</button>
+</div>
+
+<nav>
+  <a class="nav-logo" href="#">Qimiao Lin · 林琪妙</a>
+  <div class="nav-links">
+    <a href="#work"><span class="en">Work</span><span class="zh">作品</span></a>
+    <a href="#creative"><span class="en">Creative</span><span class="zh">创作</span></a>
+    <a href="#about"><span class="en">About</span><span class="zh">关于</span></a>
+    <a href="#contact"><span class="en">Contact</span><span class="zh">联系</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-word en">Content.</div>
+  <div class="hero-bg-word zh">内容.</div>
+
+  <!-- 右侧动态视觉区域 -->
+  <div class="hero-visual" aria-hidden="true">
+
+    <!-- 旋转圆环们 -->
+    <div class="hero-ring" style="width:420px;height:420px;top:8%;right:-80px;animation-duration:28s;"></div>
+    <div class="hero-ring" style="width:240px;height:240px;top:22%;right:14%;animation-duration:18s;animation-direction:reverse;"></div>
+    <div class="hero-ring" style="width:100px;height:100px;top:55%;right:38%;animation-duration:12s;"></div>
+
+    <!-- 细横线装饰 -->
+    <div class="hero-line" style="width:1px;height:180px;top:10%;right:32%;animation-delay:0s;animation-duration:3.5s;"></div>
+    <div class="hero-line" style="width:1px;height:80px;top:38%;right:18%;animation-delay:1.2s;animation-duration:4s;"></div>
+    <div class="hero-line" style="width:60px;height:1px;top:60%;right:28%;animation-delay:0.6s;animation-duration:5s;"></div>
+    <div class="hero-line" style="width:120px;height:1px;top:75%;right:8%;animation-delay:2s;animation-duration:3.8s;"></div>
+
+    <!-- 浮动关键词标签 -->
+    <div class="float-tag" style="top:18%;right:6%;animation-duration:8s;animation-delay:0s;">KOL Marketing</div>
+    <div class="float-tag" style="top:30%;right:28%;animation-duration:10s;animation-delay:1.5s;">Brand Strategy</div>
+    <div class="float-tag" style="top:50%;right:10%;animation-duration:7.5s;animation-delay:0.8s;">Editorial Design</div>
+    <div class="float-tag" style="top:63%;right:32%;animation-duration:11s;animation-delay:2.5s;">Cross-cultural</div>
+    <div class="float-tag" style="top:80%;right:16%;animation-duration:9s;animation-delay:1s;">Bilingual</div>
+    <div class="float-tag" style="top:88%;right:42%;animation-duration:8.5s;animation-delay:3s;">Data-driven</div>
+
+    <!-- 小装饰点 -->
+    <div style="position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(192,57,43,0.4);top:26%;right:22%;animation:ringRotate 5s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(192,57,43,0.35);top:54%;right:40%;animation:ringRotate 7s ease-in-out infinite 1s;"></div>
+    <div style="position:absolute;width:5px;height:5px;border-radius:50%;background:rgba(26,26,26,0.18);top:72%;right:12%;animation:ringRotate 6s ease-in-out infinite 0.5s;"></div>
+  </div>
+
+  <p class="hero-eyebrow en">Content · Brand · Culture — 2026</p>
+  <p class="hero-eyebrow zh">内容 · 品牌 · 文化 — 2026</p>
+
+  <h1 class="hero-name">
+    <span class="en">Qimiao<br><em>Lin.</em></span>
+    <span class="zh">林<em>琪妙</em></span>
+  </h1>
+
+  <div class="hero-bottom">
+    <div>
+      <p class="hero-desc en">M.S. Communication, Northwestern University<br>B.A. Digital Cultures & Visual Arts, University of Sydney<br>KOL Marketing · Brand Strategy · Editorial Design<br>Bilingual. Cross-cultural. Data-driven.</p>
+      <p class="hero-desc zh">西北大学传播学硕士<br>悉尼大学数字文化与视觉艺术学士<br>KOL营销 · 品牌策略 · 编辑设计<br>中英双语 · 跨文化视角 · 数据驱动</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<div class="divider" id="work">
+  <span class="divider-label en">Selected Work — Marketing & Content Operations</span>
+  <span class="divider-label zh">精选项目 — 营销与内容运营</span>
+  <span class="divider-year">2023–2025</span>
+</div>
+
+<!-- 01 Pet Live -->
+<div class="project">
+  <div class="proj-idx en">KOL · 01</div>
+  <div class="proj-idx zh">达人 · 01</div>
+  <div class="proj-left">
+    <div class="proj-cat en">Influencer Marketing · Consumer App · North America</div>
+    <div class="proj-cat zh">达人营销 · 消费类App · 北美市场</div>
+    <h2 class="proj-title en">Pet Live<br><em>KOL Campaign</em></h2>
+    <h2 class="proj-title zh">Pet Live<br><em>北美KOL营销项目</em></h2>
+    <p class="proj-desc en">Built North America's influencer infrastructure for an AI pet app from zero — 1,500+ creator database, full-cycle partnership management, and performance tracking across TikTok, Instagram & YouTube.</p>
+    <p class="proj-desc zh">从零搭建AI宠物产品北美达人营销体系，覆盖TikTok、Instagram、YouTube三平台，独立完成从数据库构建到合作复盘的全链路管理。</p>
+    <div class="proj-nums">
+      <div class="pnum"><span class="pnum-v">1,500+</span><span class="pnum-k en">Creator DB</span><span class="pnum-k zh">达人数据库</span></div>
+      <div class="pnum"><span class="pnum-v">100+</span><span class="pnum-k en">Partnerships</span><span class="pnum-k zh">达成合作</span></div>
+      <div class="pnum"><span class="pnum-v">$1.94</span><span class="pnum-k en">CPM achieved</span><span class="pnum-k zh">个人CPM</span></div>
+      <div class="pnum"><span class="pnum-v">800+</span><span class="pnum-k en">Media Outlets</span><span class="pnum-k zh">媒体触达</span></div>
+    </div>
+  </div>
+  <div class="proj-right">
+    <ul class="proj-list">
+      <li class="en">Built 1,500+ creator database from scratch across three platforms</li>
+      <li class="zh">从零搭建三平台1,500+达人数据库</li>
+      <li class="en">Full-cycle management: outreach → negotiation → brief → review → analytics</li>
+      <li class="zh">全链路管理：触达→谈判→简报→审核→数据复盘</li>
+      <li class="en">Set up Pet Live's official Instagram: profile, link-in-bio, content cadence</li>
+      <li class="zh">搭建Pet Live官方Instagram账号，含简介撰写、链接布局与内容节奏</li>
+      <li class="en">Achieved CPM 11% below team average through data-driven creator selection</li>
+      <li class="zh">通过精准达人筛选，个人CPM低于团队均值11%</li>
+      <li class="en">PR distribution across 800+ media outlets — <a href="https://finance.yahoo.com/news/bringing-pets-life-petlive-introduces-015600498.html" target="_blank" style="color:var(--accent);text-decoration:underline;">Featured on Yahoo Finance →</a></li>
+      <li class="zh">配合PR团队完成Yahoo Finance等800+媒体通稿分发 — <a href="https://finance.yahoo.com/news/bringing-pets-life-petlive-introduces-015600498.html" target="_blank" style="color:var(--accent);text-decoration:underline;">Yahoo Finance报道 →</a></li>
+    </ul>
+    <div style="margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--rule);">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:4px;">Yahoo Finance · GlobeNewswire</div>
+      <div style="font-size:12px;color:var(--dim);">Bringing Pets to Life: PetLive Introduces AI Digital Frame for Emotional Companionship</div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 NoBully5 -->
+<div class="project" style="grid-template-columns:56px 1fr 1fr;">
+  <div class="proj-idx en">Social · 02</div>
+  <div class="proj-idx zh">社媒 · 02</div>
+  <!-- 左：标题 + 描述 + 数字 + 要点列表 -->
+  <div class="proj-left" style="display:flex;flex-direction:column;gap:0;">
+    <div class="proj-cat en">Advocacy · Social Media · Community Building</div>
+    <div class="proj-cat zh">公益倡导 · 社媒运营 · 社区建设</div>
+    <h2 class="proj-title en">NoBully5<br><em>Anti-Cyberbullying</em></h2>
+    <h2 class="proj-title zh">NoBully5<br><em>反网络欺凌倡导账号</em></h2>
+    <p class="proj-desc en">Co-created a multi-format Instagram advocacy account on cyberbullying and mental health — spanning video interviews, research infographics, street art performances, surveys, and an offline workshop.</p>
+    <p class="proj-desc zh">共同策划运营Instagram倡导账号，内容覆盖视频采访、信息图、街头行为艺术、用户调研及线下工作坊，形成完整传播生态。</p>
+    <div class="proj-nums" style="margin-bottom:32px;">
+      <div class="pnum"><span class="pnum-v">5+</span><span class="pnum-k en">Content Formats</span><span class="pnum-k zh">内容形式</span></div>
+      <div class="pnum"><span class="pnum-v">1</span><span class="pnum-k en">Workshop Hosted</span><span class="pnum-k zh">线下工作坊</span></div>
+      <div class="pnum"><span class="pnum-v">200+</span><span class="pnum-k en">Survey Responses</span><span class="pnum-k zh">问卷回收</span></div>
+    </div>
+    <ul class="proj-list">
+      <li class="en">Designed multi-format content strategy across video, infographic, art, and workshop</li>
+      <li class="zh">设计多形式内容矩阵：视频、信息图、艺术装置、工作坊</li>
+      <li class="en">Conducted 200+ user surveys on cyberbullying experiences and mental health impact</li>
+      <li class="zh">设计并回收200+用户调研问卷，聚焦网络欺凌体验与心理健康影响</li>
+      <li class="en">Organized offline awareness workshop at University of Sydney</li>
+      <li class="zh">在悉尼大学策划举办线下反网络霸凌意识工作坊</li>
+      <li class="en">Street art performance visualizing the physical experience of digital isolation</li>
+      <li class="zh">策划行为艺术装置，视觉化呈现数字孤立感的身体体验</li>
+    </ul>
+  </div>
+  <!-- 右：竖屏图片 -->
+  <div class="proj-right" style="padding:48px 40px;justify-content:center;align-items:center;display:flex;">
+    <img src="images/nobully_instagram_vertical.jpg" class="portrait-img" style="max-width:320px;margin:0 auto;" alt="NoBully5 Instagram">
+  </div>
+</div>
+
+<!-- 03 Douyin -->
+<div class="project" style="grid-template-columns:56px 1fr 1fr;">
+  <div class="proj-idx en">Viral · 03</div>
+  <div class="proj-idx zh">爆款 · 03</div>
+  <!-- 左：标题 + 描述 + 数字 + 要点列表 -->
+  <div class="proj-left" style="display:flex;flex-direction:column;gap:0;">
+    <div class="proj-cat en">Short-form Video · Viral Content · Brand Collaboration</div>
+    <div class="proj-cat zh">短视频创作 · 爆款内容 · 品牌联动</div>
+    <h2 class="proj-title en">零溢传<br><em>Douyin Drama Series</em></h2>
+    <h2 class="proj-title zh">零溢传<br><em>抖音爆款短剧账号</em></h2>
+    <p class="proj-desc en">Co-creator on a college student parody drama riffing on the hit Chinese series "Story of Yanxi Palace." Contributed to content strategy, narrative arc, and brand partnership development — 1.4M total likes.</p>
+    <p class="proj-desc zh">以联合创作者身份参与大学生甄嬛传改编短剧，负责内容策略、叙事方向及品牌联动开发，账号累计140万获赞，促成3场品牌合作。</p>
+    <div class="proj-nums" style="margin-bottom:32px;">
+      <div class="pnum"><span class="pnum-v">1.4M</span><span class="pnum-k en">Total Likes</span><span class="pnum-k zh">总获赞</span></div>
+      <div class="pnum"><span class="pnum-v">28K</span><span class="pnum-k en">Followers</span><span class="pnum-k zh">粉丝量</span></div>
+      <div class="pnum"><span class="pnum-v">498K</span><span class="pnum-k en">Single Video</span><span class="pnum-k zh">单集最高</span></div>
+      <div class="pnum"><span class="pnum-v">3</span><span class="pnum-k en">Brand Deals</span><span class="pnum-k zh">品牌联动</span></div>
+    </div>
+    <ul class="proj-list">
+      <li class="en">Contributed to content planning and narrative arc across 100+ episodes</li>
+      <li class="zh">参与100+集内容策划与叙事弧线设计</li>
+      <li class="en">Helped grow account organically from 0 to 28K followers</li>
+      <li class="zh">协助账号从0增长至2.8万粉丝</li>
+      <li class="en">Facilitated 3 brand partnership collaborations from outreach to execution</li>
+      <li class="zh">主导3场品牌联动合作从触达到落地的全流程</li>
+      <li class="en">Developed deep understanding of Douyin's virality mechanics and user psychology</li>
+      <li class="zh">深入理解抖音爆款内容的传播逻辑与用户心理</li>
+    </ul>
+  </div>
+  <!-- 右：竖屏图片 -->
+  <div class="proj-right" style="padding:48px 40px;justify-content:center;align-items:center;display:flex;">
+    <img src="images/douyin_vertical.jpg" class="portrait-img" style="max-width:320px;margin:0 auto;" alt="零溢传 Douyin">
+  </div>
+</div>
+
+<!-- 04 Tang Magazine -->
+<div class="project" style="grid-template-columns:56px 1fr 1fr;">
+  <div class="proj-idx en">Edit · 04</div>
+  <div class="proj-idx zh">编辑 · 04</div>
+  <!-- 左：标题 + 描述 + 数字 + 要点列表 -->
+  <div class="proj-left" style="display:flex;flex-direction:column;gap:0;">
+    <div class="proj-cat en">Magazine Design · Cultural Research · Art Direction</div>
+    <div class="proj-cat zh">杂志设计 · 文化研究 · 视觉总监</div>
+    <h2 class="proj-title en">Tang Dynasty<br><em>Fashion &amp; Lifestyle</em></h2>
+    <h2 class="proj-title zh">《唐朝时尚与生活》<br><em>24页数字文化杂志</em></h2>
+    <p class="proj-desc en">Conceived, researched, and art-directed a 24-page editorial magazine on Tang Dynasty fashion across four historical eras, makeup culture, and Silk Road influence. Academic scholarship meets editorial storytelling.</p>
+    <p class="proj-desc zh">独立策划、研究并完成24页英文文化杂志的全程视觉设计，覆盖四个历史时期的服饰演变、妆容文化与丝绸之路影响，兼顾学术深度与编辑可读性。</p>
+    <div class="proj-nums" style="margin-bottom:32px;">
+      <div class="pnum"><span class="pnum-v">24</span><span class="pnum-k en">Pages</span><span class="pnum-k zh">页码</span></div>
+      <div class="pnum"><span class="pnum-v">4</span><span class="pnum-k en">Historical Eras</span><span class="pnum-k zh">历史时期</span></div>
+      <div class="pnum"><span class="pnum-v">10+</span><span class="pnum-k en">Sections</span><span class="pnum-k zh">编辑板块</span></div>
+    </div>
+    <ul class="proj-list">
+      <li class="en">Full art direction: typography system, layout grid, color palette, visual hierarchy</li>
+      <li class="zh">全程视觉把控：字体系统、版式网格、色彩方案与视觉层级</li>
+      <li class="en">Researched and wrote all editorial copy — Early Tang, Wu Zhou, High Tang, Late Tang</li>
+      <li class="zh">独立研究并撰写初唐、武周、盛唐、晚唐四个板块的全部编辑文案</li>
+      <li class="en">Designed thematic spreads on Tang makeup (huadian, rouge) and Silk Road exchange</li>
+      <li class="zh">设计唐朝妆容（花钿、胭脂）及丝绸之路文化交流专题页面</li>
+      <li class="en">Curated imagery from Weibo, Xiaohongshu, Visual China & personal photography</li>
+      <li class="zh">整合微博、小红书、视觉中国及个人旅行摄影的多元图像资源</li>
+    </ul>
+  </div>
+  <!-- 右：封面图 -->
+  <div class="proj-right" style="padding:48px 40px;justify-content:center;align-items:center;display:flex;flex-direction:column;">
+    <img src="images/tang_cover_new.png" class="portrait-img" style="max-width:360px;margin:0 auto;" alt="Tang Dynasty Fashion & Lifestyle Magazine Cover">
+    <div style="margin-top:12px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--dim);text-align:center;">24 PAGES · 2024</div>
+  </div>
+</div>
+
+<!-- 05 Medium -->
+<div class="project" style="grid-template-columns:56px 1fr 1fr;">
+  <div class="proj-idx en">Write · 05</div>
+  <div class="proj-idx zh">写作 · 05</div>
+  <!-- 左：标题 + 描述 + 文章列表 -->
+  <div class="proj-left" style="display:flex;flex-direction:column;gap:0;">
+    <div class="proj-cat en">Editorial Writing · AI & Digital Culture · Thought Leadership</div>
+    <div class="proj-cat zh">编辑写作 · AI与数字文化 · 观点输出</div>
+    <h2 class="proj-title en">Medium Blog<br><em>AI &amp; Creative Industries</em></h2>
+    <h2 class="proj-title zh">Medium博客<br><em>AI与创意产业系列</em></h2>
+    <p class="proj-desc en">Research-backed English articles exploring generative AI's impact on creative fields, VR art, and mixed reality. Academic rigor translated into platform-native, accessible editorial prose.</p>
+    <p class="proj-desc zh">英文深度文章系列，探讨生成式AI对创意产业的影响、VR艺术体验与混合现实叙事，将学术研究转化为面向大众的优质编辑内容。</p>
+    <ul class="proj-list" style="margin-top:8px;">
+      <li>How does generative AI influence the creative industry?</li>
+      <li>Artwork review: MLK — Now Is the Time (VR Experience)</li>
+      <li>MR Experience: Psychogeography &amp; Mixed Reality Narrative</li>
+    </ul>
+    <div style="margin-top:24px;padding:16px;background:var(--surface);border:1px solid var(--rule);display:inline-block;">
+      <div style="font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;">Published on Medium</div>
+      <a href="https://medium.com/@linqimiao12" target="_blank" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--white);text-decoration:none;display:block;">@linqimiao12 →</a>
+    </div>
+  </div>
+  <!-- 右：Medium主页截图 -->
+  <div class="proj-right" style="padding:48px 40px;justify-content:center;align-items:center;display:flex;">
+    <img src="images/medium_profile.png" class="portrait-img" style="max-width:380px;margin:0 auto;" alt="Medium profile">
+  </div>
+</div>
+
+<!-- CREATIVE -->
+<div class="divider" id="creative">
+  <span class="divider-label en">Creative Practice — Visual Art & Design</span>
+  <span class="divider-label zh">创作实践 — 视觉艺术与设计</span>
+  <span class="divider-year">2022–2023</span>
+</div>
+
+<div class="creative-wrap">
+  <div class="creative-side en">Visual</div>
+  <div class="creative-side zh">视觉</div>
+  <div class="creative-body">
+    <div class="creative-header">
+      <p class="creative-pull en">Making is thinking.<br><em>Design is argument.</em></p>
+      <p class="creative-pull zh">制作即思考.<br><em>设计即观点.</em></p>
+      <p class="creative-sub en">A visual practice spanning printmaking, digital collage, and typographic design — the same instinct that drives good content strategy: an eye for the unexpected, and a willingness to work across media.</p>
+      <p class="creative-sub zh">涵盖版画、数字拼贴与字体设计的视觉创作实践——与优质内容策略底层相通：对意想不到的敏锐感知，以及跨媒介工作的能力。</p>
+    </div>
+    <div class="works-grid">
+      <!-- 左：图3 Make Australia 新图 -->
+      <div class="work">
+        <span class="work-label en">Woodblock Print · Monoprint · Advocacy</span>
+        <span class="work-label zh">木版画 · 单版印刷 · 社会倡导</span>
+        <img src="images/make_australia_new.jpg" style="width:100%;height:auto;display:block;margin-bottom:16px;" alt="Make Australia Affordable Again">
+        <div class="work-title en">"Make Australia<br>Affordable Again"</div>
+        <div class="work-title zh">《让澳洲再次可负担》</div>
+        <p class="work-desc en">Woodblock print poster addressing Australia's housing crisis. Protest crowd silhouettes beneath scales of justice — raw printmaking as political voice. Displayed and shared on campus to amplify reach via student social accounts.</p>
+        <p class="work-desc zh">以版画形式回应澳洲住房可负担性危机，抗议人群剪影与天平图像并置。在校园展示并通过社媒扩散，让传播不止于作品本身。</p>
+        <span class="work-yr">2023</span>
+      </div>
+      <!-- 中：图4 Digital Discourse 蒸汽波拼贴新图 -->
+      <div class="work">
+        <span class="work-label en">Watercolor + Photoshop · Digital Collage · Vaporwave</span>
+        <span class="work-label zh">水彩 + Photoshop · 数字拼贴 · 蒸汽波</span>
+        <img src="images/digital_discourse_new.png" style="width:100%;height:auto;display:block;margin-bottom:16px;" alt="Digital Discourse Disarray">
+        <div class="work-title en">"Digital Discourse<br>Disarray" Series</div>
+        <div class="work-title zh">《数字话语混乱》系列</div>
+        <p class="work-desc en">A triptych exploring digital-age communication breakdown. Watercolor original → Photoshop collage → frottage. Same composition across three material realities, interrogating authenticity and individuality in the age of social media.</p>
+        <p class="work-desc zh">探索数字时代沟通异化的三联作：水彩原作→数字拼贴→拓印。同一构图跨越三种媒材，质问社媒时代"真实性"与个体性的边界。</p>
+        <span class="work-yr">2023</span>
+      </div>
+      <!-- 右：图5 Together As One 最终版 -->
+      <div class="work">
+        <span class="work-label en">Typography · Adobe Illustrator · InDesign</span>
+        <span class="work-label zh">字体设计 · Illustrator · InDesign</span>
+        <img src="images/together_as_one_final.png" style="width:100%;height:auto;display:block;margin-bottom:16px;" alt="Together As One Typography">
+        <div class="work-title en">"Together As One"<br>Olympic Typography</div>
+        <div class="work-title zh">《Together As One》<br>奥林匹克字体设计</div>
+        <p class="work-desc en">Typographic design for the Olympic spirit "Faster, Higher, Stronger, Together." Heart form segmented in three with a 3D layered gold palette — referencing Massimo Vignelli's clean structural language.</p>
+        <p class="work-desc zh">以奥运精神"更快更高更强更团结"为主题的字体设计，心形三段分割配合金色系3D层叠效果，致敬Vignelli的极简结构美学。</p>
+        <span class="work-yr">2023</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="divider">
+  <span class="divider-label en">Capabilities</span>
+  <span class="divider-label zh">核心能力</span>
+</div>
+<div class="skills-wrap">
+  <div class="skills-side en">Skills</div>
+  <div class="skills-side zh">能力</div>
+  <div class="skills-body">
+    <div class="skill">
+      <div><div class="skill-name en">KOL & Influencer Marketing</div><div class="skill-name zh">KOL / 达人营销</div><div class="skill-plat">TikTok · Instagram · YouTube · Douyin</div></div>
+      <div class="skill-badge en">Core</div><div class="skill-badge zh">核心</div>
+    </div>
+    <div class="skill">
+      <div><div class="skill-name en">Content Strategy & Production</div><div class="skill-name zh">内容策略与生产</div><div class="skill-plat en">Short-form · Long-form · Editorial · Social</div><div class="skill-plat zh">短视频 · 长文 · 编辑 · 社媒文案</div></div>
+      <div class="skill-badge en">Core</div><div class="skill-badge zh">核心</div>
+    </div>
+    <div class="skill">
+      <div><div class="skill-name en">Cross-cultural Communication</div><div class="skill-name zh">跨文化传播</div><div class="skill-plat">EN · ZH · AU · UK · US</div></div>
+      <div class="skill-badge en">Bilingual</div><div class="skill-badge zh">双语</div>
+    </div>
+    <div class="skill">
+      <div><div class="skill-name en">Brand Building & Account Setup</div><div class="skill-name zh">品牌搭建与账号冷启动</div><div class="skill-plat en">Naming · Bio · Links · Cadence</div><div class="skill-plat zh">命名 · 简介 · 链接 · 节奏</div></div>
+      <div class="skill-badge en">Applied</div><div class="skill-badge zh">实战</div>
+    </div>
+    <div class="skill">
+      <div><div class="skill-name en">Editorial & Visual Design</div><div class="skill-name zh">编辑与视觉设计</div><div class="skill-plat">InDesign · Illustrator · Photoshop · Figma</div></div>
+      <div class="skill-badge en">Applied</div><div class="skill-badge zh">实战</div>
+    </div>
+    <div class="skill">
+      <div><div class="skill-name en">User Research & Audience Insight</div><div class="skill-name zh">用户洞察与调研</div><div class="skill-plat en">Survey · Interview · Data Analysis</div><div class="skill-plat zh">问卷 · 访谈 · 数据分析</div></div>
+      <div class="skill-badge en">Applied</div><div class="skill-badge zh">实战</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="divider" id="about">
+  <span class="divider-label en">About</span>
+  <span class="divider-label zh">关于</span>
+</div>
+<div class="about-wrap">
+  <div class="about-left">
+    <div>
+      <div class="about-edu-item">
+        <strong>Northwestern University</strong>
+        <span class="en">M.S. Communication · 2025–2026</span>
+        <span class="zh">传播学硕士 · 2025–2026</span>
+      </div>
+      <div class="about-edu-item">
+        <strong>University of Sydney</strong>
+        <span class="en">B.A. Digital Cultures &amp; Visual Arts · 2023–2025</span>
+        <span class="zh">数字文化与视觉艺术学士 · 2023–2025</span>
+      </div>
+    </div>
+  </div>
+  <div class="about-right">
+    <div class="about-row">
+      <div class="about-row-label en">Experience</div>
+      <div class="about-row-label zh">实习经历</div>
+      <div class="about-row-val en">KOL Marketing Intern · Hangzhou · 2025<br>Brand Strategy Intern · Shanghai · 2023</div>
+      <div class="about-row-val zh">KOL营销实习生 · 杭州 · 2025<br>品牌策略实习生 · 上海 · 2023</div>
+    </div>
+    <div class="about-row">
+      <div class="about-row-label en">Languages & Markets</div>
+      <div class="about-row-label zh">语言与市场</div>
+      <div class="tags">
+        <span class="tag">English</span><span class="tag">中文</span>
+        <span class="tag en">North America</span><span class="tag zh">北美</span>
+        <span class="tag en">China</span><span class="tag zh">中国</span>
+        <span class="tag">Australia</span>
+      </div>
+    </div>
+    <div class="about-row">
+      <div class="about-row-label en">Platforms</div>
+      <div class="about-row-label zh">平台经验</div>
+      <div class="tags">
+        <span class="tag">TikTok</span><span class="tag">Instagram</span>
+        <span class="tag">抖音</span><span class="tag">YouTube</span>
+        <span class="tag">小红书</span><span class="tag">微博</span>
+        <span class="tag">Medium</span>
+      </div>
+    </div>
+    <div class="about-row">
+      <div class="about-row-label en">Tools</div>
+      <div class="about-row-label zh">工具</div>
+      <div class="tags">
+        <span class="tag">Photoshop</span><span class="tag">Illustrator</span>
+        <span class="tag">InDesign</span><span class="tag">Meltwater</span>
+        <span class="tag">Microsoft Office</span><span class="tag">XMind</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="divider" id="contact">
+  <span class="divider-label en">Contact</span>
+  <span class="divider-label zh">联系</span>
+</div>
+<div class="contact">
+  <div class="contact-head en">Let's<br><em>Talk.</em></div>
+  <div class="contact-head zh">欢迎<br><em>联系.</em></div>
+  <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-end;">
+    <a href="mailto:linqimiao12@gmail.com" class="contact-cta en">linqimiao12@gmail.com →</a>
+    <a href="mailto:linqimiao2024@163.com" class="contact-cta zh">linqimiao2024@163.com →</a>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 Qimiao Lin · 林琪妙</span>
+  <span>Northwestern University · M.S. Communication</span>
+</footer>
+
+<script>
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lang-btn[onclick="setLang(\''+l+'\')"]').classList.add('active');
+}
+</script>
+</body>
+</html>
